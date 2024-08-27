@@ -28,7 +28,7 @@ class BooksController < ApplicationController
     if @book.update(book_params)
       redirect_to @book
     else
-      redirect to edit_book_path(error: @book.errors.full_messages)
+      redirect_to edit_book_path(error: @book.errors.full_messages)
     end
   end
 
