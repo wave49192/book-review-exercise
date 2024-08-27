@@ -1,11 +1,14 @@
 class BooksController < ApplicationController
-  before_action :setbook, only: %i[show edit update destroy]
+  before_action :set_book, only: %i[show edit update destroy]
+
   def index
     @books = Book.all
     render :index
   end
 
   def show
+    @reviews = @book.reviews
+    @review = Review.new
   end
 
   def new
@@ -39,9 +42,10 @@ class BooksController < ApplicationController
 
 private
 
-  def setbook
+  def set_book
     @book = Book.find(params[:id])
   end
+
   def book_params
     params.require(:book).permit(:name, :description, :release)
   end
