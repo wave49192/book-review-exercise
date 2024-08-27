@@ -1,10 +1,14 @@
 <div>
-<%=link_to "Back to home",root_path%>
+  <%= link_to "Back to home", root_path %>
+</div>
 
 <div>
-  <h1><%= @book.name %></h1> <div> <%=link_to "Edit", edit_book_path(@book)%></div>
+  <h1><%= @book.name %></h1>
+  <div>
+    <%= link_to "Edit", edit_book_path(@book) %>
+  </div>
   <p><%= @book.description %></p>
   <p>Published on: <%= @book.release %></p>
 </div>
-<%= button_to "Delete", @book, method: :delete%>
-</div>
+
+<%= button_to "Delete", @book, method: :delete %>
