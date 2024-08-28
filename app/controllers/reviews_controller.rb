@@ -1,10 +1,10 @@
 class ReviewsController < ApplicationController
   before_action :set_book
-  before_action :set_review, only: [ :edit, :update, :destroy ]
+  before_action :set_review, only: %i[edit update destroy ]
 
   def create
     @review = @book.reviews.create(review_params)
-    if @review.update(review_params)
+    if @review.save
       redirect_to @book
     else
       redirect_to book_path(@book, error: @review.errors.full_messages)
@@ -23,8 +23,11 @@ class ReviewsController < ApplicationController
   end
 
   def destroy
-    @review.destroy
-    redirect_to @book
+    if @review.destroy
+      redirect_to @book, notice: "Delete successfully"
+    else
+      redirect_to book_path(@book), alert: @review.errors.full_messages.to_sentence
+    end
   end
 
   private
