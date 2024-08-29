@@ -1,0 +1,27 @@
+<% if params[:error] %>
+  <div>
+    <ul>
+      <% params[:error].each do |error| %>
+        <li><%= error %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
+
+<h3>Edit Review</h3>
+
+<%= form_with(model: [@book, @review]) do |form| %>
+  <p>
+    <%= form.label :comment %><br>
+    <%= form.text_field :comment %>
+  </p>
+
+  <p>
+    <%= form.label :star %><br>
+    <%= form.number_field :star %>
+  </p>
+
+  <p>
+    <%= form.submit "Update Review" %>
+  </p>
+<% end %>
