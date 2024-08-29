@@ -3,7 +3,6 @@ class BooksController < ApplicationController
 
   def index
     @books = Book.all
-    render :index
   end
 
   def show
@@ -40,10 +39,10 @@ class BooksController < ApplicationController
     redirect_to root_path
   end
 
-private
+  private
 
   def set_book
-    @book = Book.find(params[:id])
+    @book ||= Book.find(params[:id])
   end
 
   def book_params
