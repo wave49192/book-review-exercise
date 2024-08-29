@@ -1,0 +1,11 @@
+<h1>Books</h1>
+
+<div>
+  <%= link_to "Create book", new_book_path %>
+</div>
+
+<% @books.each do |book| %>
+  <div>
+    <%= link_to book.name, book_path(book) %>
+  </div>
+<% end %>

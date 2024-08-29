@@ -1,0 +1,58 @@
+<div>
+  <%= link_to "Back to home", root_path %>
+  <div>
+    <h1><%= @book.name %></h1>
+    <div>
+      <%= link_to "Edit", edit_book_path(@book) %>
+      <%= button_to "Delete", @book, method: :delete %>
+    </div>
+    <p><%= @book.description %></p>
+    <p>Published on: <%= @book.release %></p>
+  </div>
+
+  <h2>Reviews</h2>
+
+  <% @book.reviews.each do |review| %>
+    <div>
+      <p><%= review.comment %></p>
+      <p>Given <%= review.star %> stars</p>
+      <%= link_to "Edit comment", edit_book_review_path(@book, review) %>
+      <%= button_to "Delete Comment", book_review_path(@book, review), method: :delete %>
+    </div>
+  <% end %>
+
+  <% if flash[:notice] %>
+    <p class="notice"><%= flash[:notice] %></p>
+  <% end %>
+
+  <% if flash[:alert] %>
+    <p class="alert"><%= flash[:alert] %></p>
+  <% end %>
+
+  <% if params[:error] %>
+    <div>
+      <ul>
+        <% params[:error].each do |error| %>
+          <li><%= error %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <h1>Add Reviews Here</h1>
+    <%= form_with model: [@book, @book.reviews.build] do |form| %>
+      <p>
+        <%= form.label :comment %><br>
+        <%= form.text_area :comment %>
+      </p>
+      <p>
+        <%= form.label :star %><br>
+        <%= form.number_field :star %>
+      </p>
+      <p>
+        <%= form.submit "Submit Review" %>
+      </p>
+    <% end %>
+  </div>
+</div>

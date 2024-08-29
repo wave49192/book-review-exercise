@@ -1,0 +1,30 @@
+<% if params[:error] %>
+  <div>
+    <ul>
+      <% params[:error].each do |error| %>
+        <li><%= error %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
+
+<%= link_to "Back Home", root_path %>
+
+<%= form_with model: @book do |form| %>
+  <div>
+    <%= form.label :name %>
+    <%= form.text_field :name %>
+  </div>
+
+  <div>
+    <%= form.label :description %>
+    <%= form.text_area :description %>
+  </div>
+
+  <div>
+    <%= form.label :release %>
+    <%= form.date_select :release %>
+  </div>
+
+  <%= form.submit %>
+<% end %>
