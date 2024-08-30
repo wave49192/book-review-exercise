@@ -1,5 +1,12 @@
+<%= link_to "Back to home", root_path %>
+
 <div>
-  <%= link_to "Back to home", root_path %>
+  <% if current_user %>
+    LOGGED IN: You have the ability to create and manage comments.
+  <% else %>
+    NOT LOGGED IN: You have limited access to create and manage comments.
+  <% end %>
+
   <div>
     <h1><%= @book.name %></h1>
     <div>
