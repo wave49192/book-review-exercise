@@ -2,16 +2,15 @@ require 'rails_helper'
 
 RSpec.describe "Books", type: :request do
   let!(:books) { create_list(:book, 3) }  # Create 3 books for index test
-
   describe "GET /index" do
+    before { get books_path }
+
     it "returns a successful response" do
-      get books_path
       expect(response).to be_successful
       expect(response.body).to include("Books")
     end
 
     it "returns a successful response and renders all book names" do
-      get books_path
       expect(response).to be_successful
 
       books.each do |book|
@@ -47,7 +46,7 @@ RSpec.describe "Books", type: :request do
   end
 
   describe "POST /create" do
-    context "with valid parameters" do
+    context "when updates with valid parameters" do
       it "creates a new Book and redirects to its show page" do
         book_params = attributes_for(:book)
         post books_path, params: { book: book_params }
@@ -56,7 +55,7 @@ RSpec.describe "Books", type: :request do
       end
     end
 
-    context "with invalid parameters" do
+    context "when updates with invalid parameters" do
       it "does not create a new Book and redirects to the new page" do
         invalid_params = attributes_for(:book, name: nil)
         post books_path, params: { book: invalid_params }
@@ -67,7 +66,7 @@ RSpec.describe "Books", type: :request do
   end
 
   describe "PATCH /update" do
-     let!(:book) { books.first }
+     let(:book) { books.first }
     context "with valid parameters" do
       it "updates the requested book and redirects to its show page" do
         new_name = "Updated Book Name"

@@ -44,6 +44,7 @@ RSpec.describe Book, type: :model do
     end
 
     it 'handles nil release date' do
+      book = Book.new(name: "Book", description: "Book description description description", release: nil)
       expect(book).to be_valid
     end
   end
