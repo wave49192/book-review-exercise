@@ -2,7 +2,7 @@ class BooksController < ApplicationController
   before_action :set_book, only: %i[show edit update destroy]
   before_action :authenticate_user!
   def index
-    @books = Book.all
+    @books = Book.order(:name).page(params[:page]).per(3)
   end
 
   def show
