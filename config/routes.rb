@@ -1,3 +1,5 @@
+require_relative "../app/api/v1/api"
+
 Rails.application.routes.draw do
   devise_for :users, controllers: { sessions: "users/sessions" }
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
@@ -8,6 +10,7 @@ Rails.application.routes.draw do
   resources :books do
     resources :reviews, only: [ :create, :update, :destroy, :edit ]
   end
+  mount ::V1::API => "/api"
 
   get "up" => "rails/health#show", as: :rails_health_check
 
