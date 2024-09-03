@@ -61,3 +61,5 @@ group :test do
 end
 
 gem "grape", "~> 2.1"
+
+gem 'grape-entity', '~> 1.0', '>= 1.0.1'
