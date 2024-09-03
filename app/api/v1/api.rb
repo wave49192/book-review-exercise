@@ -3,5 +3,6 @@ module V1
     format :json
     prefix :v1
     mount V1::BooksApi
+    mount V1::ReviewsApi
   end
 end
