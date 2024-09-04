@@ -6,14 +6,16 @@ RSpec.describe "Reviews", type: :request do
 
   describe "GET /books/:book_id" do
     let!(:reviews) { create_list(:review, 5, book: book) }
-    before { get book_path(book) }
+    subject { get book_path(book) }
 
     it "returns a successful response" do
+      subject
       expect(response).to be_successful
       expect(response.body).to include("Reviews")
     end
 
     it "renders all comments" do
+      subject
       reviews.each do |review|
         expect(response.body).to include(review.comment)
       end

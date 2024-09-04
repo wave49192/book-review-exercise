@@ -35,7 +35,7 @@ RSpec.describe Review, type: :model do
     it 'is invalid without a star' do
       review.star = nil
       expect(review).not_to be_valid
-      expect(review.errors[:star]).to match_array(["can't be blank", "is not a number"])
+      expect(review.errors[:star]).to match_array([ "can't be blank", "is not a number" ])
     end
 
     it 'is invalid with a star outside the allowed range' do
@@ -51,13 +51,7 @@ RSpec.describe Review, type: :model do
     it 'is invalid without a book' do
       review.book = nil
       expect(review).not_to be_valid
-      expect(review.errors[:book]).to match_array(["must exist"])
+      expect(review.errors[:book]).to match_array([ "must exist" ])
     end
-  end
-
-
-
-  describe 'associations' do
-    it { is_expected.to belong_to(:book) }
   end
 end
