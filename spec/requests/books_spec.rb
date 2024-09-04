@@ -20,7 +20,7 @@ RSpec.describe "Books", type: :request do
   end
 
   describe "GET /show" do
-  let!(:book) { books.first }
+    let!(:book) { books.first }
 
     it "returns a successful response" do
       get book_path(book)
