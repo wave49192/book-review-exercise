@@ -23,7 +23,6 @@ gem "devise", "~> 4.9", ">= 4.9.3"
 
 gem "kaminari"
 
-gem 'devise-jwt', '~> 0.12.0'
 # Use Kredis to get higher-level data types in Redis [https://github.com/rails/kredis]
 # gem "kredis"
 
