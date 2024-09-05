@@ -2,6 +2,10 @@ module V1
   class ReviewsApi < Grape::API
     format :json
 
+    before do
+      authenticate_token!
+    end
+
     resource :books do
       route_param :book_id do
         resource :reviews do
