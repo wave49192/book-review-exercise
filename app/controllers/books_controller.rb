@@ -1,8 +1,11 @@
 class BooksController < ApplicationController
   before_action :set_book, only: %i[show edit update destroy]
   before_action :authenticate_user!
+
   def index
-    @books = Book.all
+    page = params[:page].to_i.positive? ? params[:page] : 1
+    per_page = params[:per_page].to_i.positive? ? params[:per_page] : 3
+    @books = Book.order(:name).page(page).per(per_page)
   end
 
   def show
