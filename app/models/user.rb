@@ -3,6 +3,7 @@
 # Table name: users
 #
 #  id                     :bigint           not null, primary key
+#  access_token           :string
 #  email                  :string           default(""), not null
 #  encrypted_password     :string           default(""), not null
 #  remember_created_at    :datetime
@@ -17,6 +18,7 @@
 #  index_users_on_reset_password_token  (reset_password_token) UNIQUE
 #
 class User < ApplicationRecord
+  has_secure_token :access_token
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
