@@ -2,6 +2,10 @@ module V1
   class BooksApi < Grape::API
     format :json
 
+    before do
+      authenticate_token!
+    end
+
     resource :books do
       helpers do
         def book
