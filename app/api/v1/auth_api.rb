@@ -5,9 +5,10 @@ module V1
     helpers do
       def authenticate_user!(email, password)
         user = User.find_by(email: email)
+
         if user && user.valid_password?(password)
           user.regenerate_access_token
-          user.save
+
           user
         else
           error!("Invalid Email or Password", 401)
@@ -15,17 +16,29 @@ module V1
       end
 
       def create_user!(email, password, password_confirmation)
-        user = User.new(email: email, password: password, password_confirmation: password_confirmation)
+        user = User.new(email:, password:, password_confirmation:)
+
         if user.save
           user.regenerate_access_token
-          user.save
+
           user
         else
           error!(user.errors.full_messages, 422)
         end
       end
-    end
 
+      def set_access_token_cookie(user)
+        cookies[:access_token] = {
+          value: user.access_token,
+          httponly: true,
+          same_site: :lax
+        }
+      end
+
+      def clear_access_token_cookie
+        cookies.delete(:access_token)
+      end
+    end
     resource :auth do
       desc "Sign in a user"
       params do
@@ -34,28 +47,19 @@ module V1
       end
       post "sign_in" do
         user = authenticate_user!(params[:email], params[:password])
-        cookies[:access_token] = {
-          value: user.access_token,
-          httponly: true,
-          same_site: :lax
-        }
+        set_access_token_cookie(user)
         present message: "Logged in successfully."
       end
 
       desc "Sign out a user"
       delete "sign_out" do
         token = cookies[:access_token]
-        if token.nil?
-          error!("Unauthorized, no access token provided", 401)
-        end
+        error!("Unauthorized, no access token provided", 401) if token.nil?
         current_user = User.find_by(access_token: token)
-        if current_user
-          current_user.update(access_token: nil)
-          cookies.delete(:access_token)
-          { message: "Logged out successfully" }
-        else
-          error!("Unauthorized, invalid token", 401)
-        end
+        error!("Unauthorized, invalid token", 401) if current_user.nil?
+        current_user.update(access_token: nil)
+        clear_access_token_cookie
+        { message: "Logged out successfully" }
       end
 
       desc "Register a new user"
@@ -64,14 +68,9 @@ module V1
         requires :password, type: String, desc: "User's password"
         requires :password_confirmation, type: String, desc: "User's password confirmation"
       end
-
       post "register" do
         user = create_user!(params[:email], params[:password], params[:password_confirmation])
-        cookies[:access_token] = {
-          value: user.access_token,
-          httponly: true,
-          same_site: :lax
-        }
+        set_access_token_cookie(user)
         present message: "User registered successfully."
       end
     end
