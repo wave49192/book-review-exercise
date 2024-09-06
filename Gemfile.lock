@@ -396,13 +396,10 @@ DEPENDENCIES
   capybara
   debug
   devise (~> 4.9, >= 4.9.3)
-
-  grape (~> 2.1)
-  grape-entity (~> 1.0, >= 1.0.1)
-
   factory_bot_rails (~> 6.2)
   faker (~> 3.4, >= 3.4.1)
-
+  grape (~> 2.1)
+  grape-entity (~> 1.0, >= 1.0.1)
   importmap-rails
   jbuilder
   kaminari
