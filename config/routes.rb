@@ -1,4 +1,5 @@
 require_relative "../app/api/v1/api"
+require "sidekiq/web"
 
 Rails.application.routes.draw do
   devise_for :users, controllers: { sessions: "users/sessions" }
@@ -6,6 +7,8 @@ Rails.application.routes.draw do
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
   # Can be used by load balancers and uptime monitors to verify that the app is live.
+  mount Sidekiq::Web => '/sidekiq'
+
   root "books#index"
   resources :books do
     resources :reviews, only: [ :create, :update, :destroy, :edit ]
