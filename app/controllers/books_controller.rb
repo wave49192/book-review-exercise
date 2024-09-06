@@ -2,13 +2,13 @@ class BooksController < ApplicationController
   before_action :set_book, only: %i[show edit update destroy]
   before_action :authenticate_user!
   after_action :clear_cache, only: %i[create update destroy]
-
+  EXPIRY_DURATION = 10.minutes
   def index
     page = params[:page].to_i.positive? ? params[:page] : 1
     per_page = params[:per_page].to_i.positive? ? params[:per_page] : 3
-    cache_key = "books/page/#{page}/per_page/#{per_page}"
+    cache_key = "books"
 
-    @books = Rails.cache.fetch(cache_key, expires_in: 10.minutes) do
+    @books = Rails.cache.fetch(cache_key, expires_in: EXPIRY_DURATION) do
       Book.order(:name).all.to_a
     end
 
@@ -18,7 +18,7 @@ class BooksController < ApplicationController
 
   def show
     cache_key = "book/#{@book.id}/reviews"
-    @reviews = Rails.cache.fetch(cache_key, expires_in: 10.minutes) do
+    @reviews = Rails.cache.fetch(cache_key, expires_in: EXPIRY_DURATION) do
       @book.reviews.to_a
     end
     @review = Review.new
@@ -57,7 +57,6 @@ class BooksController < ApplicationController
 
   def clear_cache
     Rails.cache.delete_matched("books/page/*/per_page/*")
-    Rails.cache.delete("book/#{@book.id}/reviews") if @book.present?
   end
 
   def set_book
