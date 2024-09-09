@@ -12,4 +12,5 @@
 #  index_ranks_on_date  (date) UNIQUE
 #
 class Rank < ApplicationRecord
+  has_many :book_ranks
 end
