@@ -2,11 +2,11 @@ class BooksController < ApplicationController
   before_action :set_book, only: %i[show edit update destroy]
   before_action :authenticate_user!
   after_action :clear_cache, only: %i[create update destroy]
-  EXPIRY_DURATION = 10.minutes
+  EXPIRY_DURATION = 10.minutes.freeze
   def index
     page = params[:page].to_i.positive? ? params[:page] : 1
     per_page = params[:per_page].to_i.positive? ? params[:per_page] : 3
-    cache_key = "books"
+    cache_key = @book.books_key
 
     @books = Rails.cache.fetch(cache_key, expires_in: EXPIRY_DURATION) do
       Book.order(:name).all.to_a
@@ -17,7 +17,7 @@ class BooksController < ApplicationController
 
 
   def show
-    cache_key = "book/#{@book.id}/reviews"
+    cache_key = @book.book_reviews_key
     @reviews = Rails.cache.fetch(cache_key, expires_in: EXPIRY_DURATION) do
       @book.reviews.to_a
     end

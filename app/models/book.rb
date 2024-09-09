@@ -14,4 +14,11 @@ class Book < ApplicationRecord
   validates :description, presence: true, length:  { minimum: 12 }
 
   has_many :reviews, dependent: :destroy
+
+  def books_key
+    "books/index"
+  end
+  def book_reviews_key
+    "book/#{id}/reviews"
+  end
 end
