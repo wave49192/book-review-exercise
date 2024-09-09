@@ -22,6 +22,8 @@ class BooksController < ApplicationController
       @book.reviews.to_a
     end
     @review = Review.new
+    BookViewService.new(@book).increment_view
+    @views_today = BookViewService.new(@book).get_view_count
   end
 
   def new

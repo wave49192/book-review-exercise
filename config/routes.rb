@@ -13,6 +13,7 @@ Rails.application.routes.draw do
   resources :books do
     resources :reviews, only: [ :create, :update, :destroy, :edit ]
   end
+  resources :rankings, only: [ :index ]
   mount ::V1::API => "/api"
 
   get "up" => "rails/health#show", as: :rails_health_check
