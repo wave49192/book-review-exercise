@@ -1,3 +1,14 @@
+# == Schema Information
+#
+# Table name: books
+#
+#  id          :bigint           not null, primary key
+#  description :text             not null
+#  name        :string           not null
+#  release     :date
+#  created_at  :datetime         not null
+#  updated_at  :datetime         not null
+#
 require 'rails_helper'
 
 RSpec.describe Book, type: :model do

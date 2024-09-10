@@ -15,13 +15,16 @@ class BooksController < ApplicationController
     @books = Kaminari.paginate_array(@books).page(page).per(per_page)
   end
 
-
   def show
     cache_key = @book.book_reviews_key
     @reviews = Rails.cache.fetch(cache_key, expires_in: EXPIRY_DURATION) do
       @book.reviews.to_a
     end
     @review = Review.new
+
+    service = BookViewService.new(@book)
+    service.increment_view
+    @views_today = service.get_view_count
   end
 
   def new
