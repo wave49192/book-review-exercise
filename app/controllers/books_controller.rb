@@ -3,10 +3,11 @@ class BooksController < ApplicationController
   before_action :authenticate_user!
   after_action :clear_cache, only: %i[create update destroy]
   EXPIRY_DURATION = 10.minutes.freeze
+
   def index
     page = params[:page].to_i.positive? ? params[:page] : 1
     per_page = params[:per_page].to_i.positive? ? params[:per_page] : 3
-    cache_key = @book.books_key
+    cache_key = Book.books_key
 
     @books = Rails.cache.fetch(cache_key, expires_in: EXPIRY_DURATION) do
       Book.order(:name).all.to_a
@@ -59,7 +60,7 @@ class BooksController < ApplicationController
   private
 
   def clear_cache
-    Rails.cache.delete_matched("books/page/*/per_page/*")
+    Rails.cache.delete_matched('books/page/*/per_page/*')
   end
 
   def set_book

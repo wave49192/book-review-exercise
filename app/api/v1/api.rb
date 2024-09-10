@@ -12,7 +12,7 @@ module V1
         token = cookies[:access_token]
         @current_user = User.find_by(access_token: token)
 
-        error!("Unauthorized please sign in", 401) unless @current_user
+        error!('Unauthorized please sign in', 401) unless @current_user
       end
     end
   end

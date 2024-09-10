@@ -1,7 +1,7 @@
 class CreateRanks < ActiveRecord::Migration[7.2]
   def change
     create_table :ranks do |t|
-      t.datetime :date, null:false
+      t.datetime :date, null: false
 
       t.timestamps
     end

@@ -11,7 +11,7 @@ module V1
         def book
           @book ||= Book.find(params[:id])
         rescue ActiveRecord::RecordNotFound
-          error!({ error: "Book not found" }, 404)
+          error!({ error: 'Book not found' }, 404)
         end
 
         def create_book
@@ -23,10 +23,10 @@ module V1
         end
       end
 
-      desc "Return a list of books"
+      desc 'Return a list of books'
       params do
-        optional :page, type: Integer, desc: "Page number", default: 1
-        optional :per_page, type: Integer, desc: "Number of books per page", default: 3
+        optional :page, type: Integer, desc: 'Page number', default: 1
+        optional :per_page, type: Integer, desc: 'Number of books per page', default: 3
       end
       get do
         books = Book.order(:name).page(params[:page]).per(params[:per_page])
@@ -34,16 +34,16 @@ module V1
       end
 
       route_param :id do
-        desc "Return a specific book"
+        desc 'Return a specific book'
         get do
           present book, with: Entities::BookEntity
         end
 
-        desc "Update a book"
+        desc 'Update a book'
         params do
-          optional :name, type: String, desc: "Name of the book"
-          optional :description, type: String, desc: "Description of the book"
-          optional :release, type: Date, desc: "Release date of the book"
+          optional :name, type: String, desc: 'Name of the book'
+          optional :description, type: String, desc: 'Description of the book'
+          optional :release, type: Date, desc: 'Release date of the book'
         end
         put do
           if book.update({
@@ -57,21 +57,21 @@ module V1
           end
         end
 
-        desc "Delete a book"
+        desc 'Delete a book'
         delete do
           if book.destroy
-            { message: "Book deleted successfully" }
+            { message: 'Book deleted successfully' }
           else
-            error!({ error: "Failed to delete the book" }, 422)
+            error!({ error: 'Failed to delete the book' }, 422)
           end
         end
       end
 
-      desc "Create a book"
+      desc 'Create a book'
       params do
-        requires :name, type: String, desc: "Name of the book"
-        requires :description, type: String, desc: "Description of the book"
-        optional :release, type: Date, desc: "Release date of the book"
+        requires :name, type: String, desc: 'Name of the book'
+        requires :description, type: String, desc: 'Description of the book'
+        optional :release, type: Date, desc: 'Release date of the book'
       end
       post do
         book = create_book

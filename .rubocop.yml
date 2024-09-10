@@ -6,6 +6,6 @@ inherit_gem: { rubocop-rails-omakase: rubocop.yml }
 # Layout/SpaceInsideArrayLiteralBrackets:
 #   Enabled: false
 # will enable this line in main branch and run rubocop -a later for best string delimiters practice
-# Style/StringLiterals:
-#   EnforcedStyle: single_quotes
-#   EnforcedStyleForInterpolation: double_quotes
+Style/StringLiterals:
+  EnforcedStyle: single_quotes
+  EnforcedStyleForInterpolation: double_quotes

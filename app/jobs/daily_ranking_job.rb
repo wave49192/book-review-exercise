@@ -10,7 +10,7 @@ class DailyRankingJob < ApplicationJob
     book_keys = redis.keys("book:*:views:#{today}")
 
     book_keys.each do |key|
-      book_id = key.split(":")[1]
+      book_id = key.split(':')[1]
       view_count = redis.get(key).to_i
 
       if view_count > 0

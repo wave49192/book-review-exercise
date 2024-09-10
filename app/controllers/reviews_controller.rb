@@ -25,7 +25,7 @@ class ReviewsController < ApplicationController
 
   def destroy
     if @review.destroy
-      redirect_to @book, notice: "Delete successfully"
+      redirect_to @book, notice: 'Delete successfully'
     else
       redirect_to book_path(@book), alert: @review.errors.full_messages.to_sentence
     end

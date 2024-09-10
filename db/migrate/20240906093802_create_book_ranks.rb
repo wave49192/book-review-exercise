@@ -9,6 +9,6 @@ class CreateBookRanks < ActiveRecord::Migration[7.2]
       t.timestamps
     end
 
-    add_index :book_ranks, [:book_id, :rank_id], unique: true
+    add_index :book_ranks, [ :book_id, :rank_id ], unique: true
   end
 end
