@@ -1,5 +1,5 @@
 :scheduler:
   :schedule:
-  daily_ranking_job:
-    cron: "0 0 * * *" # Runs every day at midnight
-    class: "DailyRankingJob"
+    daily_ranking_job:
+      cron: "0 0 * * *" # Runs every day at midnight
+      class: "DailyRankingJob"

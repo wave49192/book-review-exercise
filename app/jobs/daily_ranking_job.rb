@@ -2,19 +2,21 @@ class DailyRankingJob < ApplicationJob
   queue_as :default
 
   def perform
-    today = Date.today
-
+    today = Time.current.to_date
     rank = Rank.find_or_create_by(date: today)
-
     books_with_views = []
 
-    Book.find_each do |book|
-      view_count = BookViewService.new(book).get_view_count
+    redis = $redis
+    book_keys = redis.keys("book:*:views:#{today}")
+
+    book_keys.each do |key|
+      book_id = key.split(":")[1]
+      view_count = redis.get(key).to_i
 
       if view_count > 0
+        book = Book.find(book_id)
         book_rank = BookRank.find_or_initialize_by(book: book, rank: rank)
         book_rank.update(view: view_count)
-
         books_with_views << book_rank
       end
     end
