@@ -1,0 +1,28 @@
+<%= link_to "Home", root_path %>
+<h1>Daily Rankings</h1>
+
+<% grouped_ranks = @ranks.group_by { |rank| rank.date.strftime("%Y-%m-%d") } %>
+
+<% grouped_ranks.each do |date, ranks_for_date| %>
+  <h2><%= date %></h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Book</th>
+        <th>Views</th>
+        <th>Rank</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% ranks_for_date.each do |rank| %>
+        <% rank.book_ranks.order(:order_id).each do |book_rank| %>
+          <tr>
+            <td><%= book_rank.book.name %></td>
+            <td><%= book_rank.view %></td>
+            <td><%= book_rank.order_id %></td>
+          </tr>
+        <% end %>
+      <% end %>
+    </tbody>
+  </table>
+<% end %>
