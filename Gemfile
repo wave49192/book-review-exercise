@@ -76,6 +76,6 @@ group :test do
   gem 'selenium-webdriver'
 end
 
-gem 'grape', '~> 2.1'
+gem 'grape', '~> 2.2'
 
 gem 'grape-entity', '~> 1.0', '>= 1.0.1'
